@@ -1,6 +1,5 @@
+requests
 pandas
 numpy
-requests
 scipy
 scikit-learn
-boto3
