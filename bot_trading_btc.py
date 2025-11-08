@@ -242,30 +242,35 @@ def seconds_until_next_candle(interval_minutes=240, offset_seconds=10):
     return seconds_to_next
 
 
-print("🚀 Iniciando bot sincronizado con velas 4H de Binance...")
-last_signal = None
+def main():
+    print("🚀 Iniciando bot sincronizado con velas 4H de Binance...")
+    last_signal = None
 
-while True:
-    try:
-        signal = check_signals()
-        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
+    while True:
+        try:
+            signal = check_signals()
+            now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S UTC")
 
-        if signal and signal != last_signal:
-            last_signal = signal
-        else:
-            print(f"{now} | Sin nueva señal")
+            if signal and signal != last_signal:
+                last_signal = signal
+            else:
+                print(f"{now} | Sin nueva señal")
 
-        # Calcular segundos hasta la próxima vela
-        wait_seconds = seconds_until_next_candle(interval_minutes=240, offset_seconds=10)
-        next_time = datetime.utcnow() + timedelta(seconds=wait_seconds)
-        print(f"⏳ Esperando hasta {next_time.strftime('%Y-%m-%d %H:%M:%S UTC')} "
-              f"({wait_seconds/60:.1f} min aprox.)...\n")
+            # Calcular segundos hasta la próxima vela
+            wait_seconds = seconds_until_next_candle(interval_minutes=240, offset_seconds=10)
+            next_time = datetime.utcnow() + timedelta(seconds=wait_seconds)
+            print(f"⏳ Esperando hasta {next_time.strftime('%Y-%m-%d %H:%M:%S UTC')} "
+                  f"({wait_seconds/60:.1f} min aprox.)...\n")
 
-        time.sleep(wait_seconds)
+            time.sleep(wait_seconds)
 
-    except Exception as e:
-        print(f"⚠️ Error en ciclo principal: {e}")
-        time.sleep(60)
+        except Exception as e:
+            print(f"⚠️ Error en ciclo principal: {e}")
+            time.sleep(60)
+
+
+if __name__ == "__main__":
+    main()
 
 
 
